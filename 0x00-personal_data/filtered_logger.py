@@ -64,3 +64,23 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return mysql.connector.connect(
         username=username, password=password, host=host, database=db_name
     )
+
+
+def main():
+    """obtains database connection,
+    retrieves all rows in the users table,
+    and display each row under a filtered format
+    """
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users;")
+    logger = get_logger()
+    for row in cursor:
+        line = ''
+        for key, value in row.items():
+            line += f'{key}={value}; '
+        logger.info(line)
+
+
+if __name__ == "__main__":
+    main()
