@@ -20,11 +20,11 @@ class Auth:
         """Initializes new instance"""
         self._db = DB()
 
-    def register_user(self, email, password):
+    def register_user(self, email: str, password: str) -> User:
         """Adds new user"""
         try:
-            user = self._db.find_user_by(email=email)
+            self._db.find_user_by(email=email)
         except NoResultFound:
-            user = self._db.add_user(email, _hash_password(password))
+            return self._db.add_user(email, _hash_password(password))
         else:
             raise ValueError(f"User {email} already exists")
